@@ -74,7 +74,7 @@ public void main(String[] args) {
 
         // Sólo tiene que añadir comienzo de nuestra cadena y de impresión.
         myPath = start + " -> " + myPath;
-        System.out.println("Este es el camino " + myPath);
+        System.out.println("Esta es la ciudad " + myPath);
         // TODO code application logic here
     }
 }
