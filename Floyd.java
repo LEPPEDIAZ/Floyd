@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class caminocorto{
+public class Floyd{
 
     public static int[][] shortestpath(int[][] adj, int[][] path) {
 
