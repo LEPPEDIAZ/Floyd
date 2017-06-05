@@ -1,79 +1,273 @@
-public interface Graph<V,E> 
-{
+import java.util.ArrayList;
 
-	public void add(V label);
-	// pre: label is a non-null label for vertex
-	// post: a vertex with label is added to graph
-	// if vertex with label is already in graph, no action
-	
-	public void addEdge(V vtx1, V vtx2, E label);
-	// pre: vtx1 and vtx2 are labels of existing vertices
-	// post: an edge (possibly directed) is inserted between
-	// vtx1 and vtx2.
-	
-	public V remove(V label);
-	// pre: label is non-null vertex label
-	// post: vertex with "equals" label is removed, if found
-	
-	public E removeEdge(V vLabel1, V vLabel2);
-	// pre: vLabel1 and vLabel2 are labels of existing vertices
-	// post: edge is removed, its label is returned
-	
-	public V get(V label);
-	// post: returns actual label of indicated vertex
-	
-	public Edge<V,E> getEdge(V label1, V label2);
-	// post: returns actual edge between vertices
-	
-	public boolean contains(V label);
-	// post: returns true iff vertex with "equals" label exists
-	
-	public boolean containsEdge(V vLabel1, V vLabel2);
-	// post: returns true iff edge with "equals" label exists
-	
-	public boolean visit(V label);
-	// post: sets visited flag on vertex, returns previous value
-	
-	public boolean visitEdge(Edge<V,E> e);
-	// pre: sets visited flag on edge; returns previous value
-	
-	public boolean isVisited(V label);
-	// post: returns visited flag on labeled vertex
-	
-	public boolean isVisitedEdge(Edge<V,E> e);
-	// post: returns visited flag on edge between vertices
-	
-	public void reset();
-	// post: resets visited flags to false
-	
-	public int size();
-	// post: returns the number of vertices in graph
-	
-	public int degree(V label);
-	// pre: label labels an existing vertex
-	// post: returns the number of vertices adjacent to vertex
-	
-	public int edgeCount();
-	// post: returns the number of edges in graph
-	
-	public Iterator<V> iterator();
-	// post: returns iterator across all vertices of graph
-	
-	public Iterator<V> neighbors(V label);
-	// pre: label is label of vertex in graph
-	// post: returns iterator over vertices adj. to vertex
-	// each edge beginning at label visited exactly once
-	
-	public Iterator<Edge<V,E>> edges();
-	// post: returns iterator across edges of graph
-	// iterator returns edges; each edge visited once
-	
-	public void clear();
-	// post: removes all vertices from graph
-	
-	public boolean isEmpty();
-	// post: returns true if graph contains no vertices
-	
-	public boolean isDirected();
-	// post: returns true if edges of graph are directed
+
+
+public class Graph {
+
+
+
+    ArrayList<String> nodos = new ArrayList<>();
+
+    ArrayList<ArrayList<Integer>> edges = new ArrayList<>(), floyd, floydNodos = new ArrayList<>();
+
+
+
+    public Graph () {}
+
+
+
+
+    public void addEdge(String line) {
+
+        String ciudad1 = "", ciudad2 = "";
+
+        String temp = "", tempNum = "";
+
+
+
+
+        for (int i = 0; i < line.length(); i++) {       
+
+            if (Character.isLetter(line.charAt(i)) || Character.isDigit(line.charAt(i))) {
+
+                if (Character.isLetter(line.charAt(i)))
+
+                    temp += line.charAt(i);
+
+                else if (Character.isDigit(line.charAt(i)))
+
+                    tempNum += line.charAt(i);
+
+            } else {
+
+
+                if (!temp.isEmpty()){
+
+                    if (!nodos.contains(temp.toLowerCase()))
+
+                        addNode(temp.toLowerCase());
+
+                    if (ciudad1.isEmpty())
+
+                        ciudad1 = temp.toLowerCase();
+
+                    else
+
+                        ciudad2 = temp.toLowerCase();
+
+
+
+                    temp = "";
+
+                }
+
+            }
+
+            // Se guarda la distancia entre las ciudades
+
+            if (!tempNum.isEmpty() && i == line.length()-1) {
+
+                edges.get(nodos.indexOf(ciudad1)).set(nodos.indexOf(ciudad2), Integer.parseInt(tempNum));
+
+                edges.get(nodos.indexOf(ciudad2)).set(nodos.indexOf(ciudad1), Integer.parseInt(tempNum));
+
+
+
+                floydNodos.get(nodos.indexOf(ciudad1)).set(nodos.indexOf(ciudad2), nodos.indexOf(ciudad1));
+
+                floydNodos.get(nodos.indexOf(ciudad2)).set(nodos.indexOf(ciudad1), nodos.indexOf(ciudad2));
+
+            }
+
+        }
+
+
+
+        //Se reconstruye la matriz de Floyd
+
+        floydAlgorithm();
+
+    }
+
+
+
+    //Funcion para agregar un nuevo nodo
+
+    private void addNode(String city) {
+
+        //Se añade una nueva fila en cada matriz
+
+        nodos.add(city);
+
+        edges.add(new ArrayList<>());
+
+        floydNodos.add(new ArrayList<>());
+
+
+
+        //Se añade una nueva columna con valores iniciales en las matrices
+
+        for (int i = 0; i < nodos.size()-1; i++) {
+
+            edges.get(i).add(Integer.MAX_VALUE);
+
+            edges.get(edges.size()-1).add(Integer.MAX_VALUE);
+
+
+
+            floydNodos.get(i).add(-1);
+
+            floydNodos.get(floydNodos.size()-1).add(-1);
+
+        }
+
+
+
+        //Por ultimo se añade el ultimo valor de la matriz
+
+        edges.get(edges.size()-1).add(0);
+
+        floydNodos.get(floydNodos.size()-1).add(-1);
+
+    }
+
+
+
+    //Funcion que devuelve la distancia mas corta entre dos ciudades
+
+    public int distBetweenNodes(String ciudad1, String ciudad2) {
+
+        int indexciudad1 = nodos.indexOf(ciudad1);
+
+        int indexciudad2 = nodos.indexOf(ciudad2);
+
+
+
+        int dist = floyd.get(indexciudad1).get(indexciudad2);
+
+
+
+        return dist;
+
+    }
+
+
+
+    //Funcion para eliminar una arista
+
+    public void deleteEdge (String ciudad1, String ciudad2) {
+
+        //Los valores correspondientes de las ciudades se convierten en valores iniciales
+
+        edges.get(nodos.indexOf(ciudad1)).set(nodos.indexOf(ciudad2), Integer.MAX_VALUE);
+
+        edges.get(nodos.indexOf(ciudad2)).set(nodos.indexOf(ciudad1), Integer.MAX_VALUE);
+
+
+
+        floydNodos.get(nodos.indexOf(ciudad1)).set(nodos.indexOf(ciudad2), -1);
+
+        floydNodos.get(nodos.indexOf(ciudad2)).set(nodos.indexOf(ciudad1), -1);
+
+
+
+        floydAlgorithm();
+
+    }
+
+    public boolean contains (String city) {
+
+        return nodos.contains(city);
+
+    }
+
+
+
+    public String toString() {
+
+        return floydNodos.toString();
+
+    }
+
+    public String toString(String ciudad1, String ciudad2) {
+
+        int index1 = nodos.indexOf(ciudad1);
+
+        int index2 = nodos.indexOf(ciudad2);
+
+        String s = "";-       
+
+        while (floydNodos.get(index1).get(index2) != index1) {
+
+            s += nodos.get(floydNodos.get(index1).get(index2)).toUpperCase().charAt(0) + nodos.get(floydNodos.get(index1).get(index2)).substring(1) + " -> ";
+
+            index1 = floydNodos.get(index1).get(index2);
+
+        }
+
+
+
+        if (!s.isEmpty())
+
+            s = s.substring(0,s.length()-4);
+
+
+
+        return s;
+
+    }
+
+//obtenido en clase
+    public void floydAlgorithm(){
+
+        floyd = edges;
+
+        for (int i = 0; i < floyd.size(); i++)
+
+            for (int j = 0; j < floyd.size(); j++)
+
+                for (int k = 0;  k < floyd.size(); k++) {
+
+                    if ((floyd.get(j).get(i) + floyd.get(i).get(k)) < floyd.get(j).get(k)) {
+
+                        floydNodos.get(j).set(k, i);
+
+                    }
+
+                    floyd.get(j).set(k, Integer.min(floyd.get(j).get(k), floyd.get(j).get(i) + floyd.get(i).get(k)));
+
+                }
+
+    }
+
+
+
+    //Función que devuelve el centro de la matriz
+
+    public String getCenter () {
+
+        int centerEx = Integer.MAX_VALUE, ex = 0, center = 0;
+
+
+
+        //Se revisan los valores maximos de las columnas de la matriz de Floyd para obtener las excentricidades de cada nodo
+
+        for (int i = 0; i < floyd.size(); i++) {
+
+            for (int j = 0; j < floyd.size(); j++) {
+
+                if (floyd.get(j).get(i) > ex)
+
+                    ex = floyd.get(j).get(i);
+
+            }
+
+        }
+
+
+
+        return nodos.get(floydNodos.get(1).get(center)).toUpperCase().charAt(0) + nodos.get(floydNodos.get(1).get(center)).substring(1);
+
+    }
+
 }
