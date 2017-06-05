@@ -131,7 +131,6 @@ public class mainfinal {
                     System.out.println("La distancia mas corta es de " + ciudades.distBetweenNodes(city1, city2) + "KM y debe pasar por: " + temp);
 
 
-
             } else if (opcion == 3) { 
 
 
@@ -156,15 +155,15 @@ public class mainfinal {
 
 
 
-            } else if (opcion == 2) { //Codigo para la segunda opcion
+            } else if (opcion == 2) { 
 
                 System.out.println("El centro del grafo es: " + ciudades.getCenter());
 
 
 
-            } else if (opcion == 4) { // Codigo para la cuarta opcion
+            } else if (opcion == 4) { 
 
-                //Se leen las ciudades y la distancia
+               
 
                 System.out.println("Por ingrese el nombre de las ciudades y su distancia. (Ej. Ciudad1 Ciudad2 XXX)");
 
@@ -172,14 +171,12 @@ public class mainfinal {
 
 
 
-                //Se agrega la arista correspondientes (y nodo si es necesario)
+         
 
                 ciudades.addEdge(line);
-
+//SOCOROOOOOOOOOOO
             }
 
         }
 
     }
-
-}
