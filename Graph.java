@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 
 
-public class Floydygrafo {
+public class Graph {
 
 
 
