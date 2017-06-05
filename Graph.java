@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
-
+//Christopher Sandoval
+//Maria Fernanda Estrada
+//Analucia Diaz
 
 public class Graph {
 
