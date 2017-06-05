@@ -1,11 +1,13 @@
-import java.util.Scanner; //Importa la clase del Scanner
+import java.util.Scanner; 
 
 import java.io.BufferedReader;
 
 import java.io.FileReader;
 
 
-
+@Christophers
+@MariaFernandaR
+@AnaluciaD
 public class mainfinal {
 
     public static void main (String[] args) {
@@ -20,43 +22,37 @@ public class mainfinal {
 
         try {
 
-            BufferedReader bf = new BufferedReader(new FileReader(System.getProperty("user.dir") + "\\guategrafo.txt")); // Direccion donde se encuentra el archivo
+            BufferedReader bf = new BufferedReader(new FileReader(System.getProperty("user.DIAZ") + "\\guategrafo.txt")); // Direccion donde se encuentra el archivo
 
 
 
             String line;
 
-
-
-            //Realiza el ciclo, mientras se encuentren datos
-
             while ((line = bf.readLine()) != null) {
-
-                //Se agrega la arista correspondiente (y nodo si es necesario)
 
                 ciudades.addEdge(line);
 
             }
 
-        System.out.println("Bienvenido, podras encontrar la ruta mas corta entre las ciudades con este programa." +
+        System.out.println("Ruta mas corta en Guatemala." +
 
         "\n Las ciudades son:" +
 
         "\n guatemala" +
 
-        "\n antigua" +
+        "\n tikal" +
 
         "\n panajachel" +
 
-        "\n escuintla" +
-
         "\n retalhuleu" +
+
+        "\n escuintla" +
 
         "\n riodulce" +
 
         "\n flores" +
 
-        "\n tikal");
+        "\n antigua");
 
 
 
@@ -122,7 +118,7 @@ public class mainfinal {
 
 
 
-                //Se muestra la distancia y las ciudades intermedias
+              
 
                 String temp = ciudades.toString(city1, city2);
 
@@ -136,21 +132,13 @@ public class mainfinal {
 
 
 
-            } else if (opcion == 3) { //Codiog para la tercera opcion
+            } else if (opcion == 3) { 
 
 
-
-                //Se leen las ciudades ingresadas por el usuario
 
                 System.out.println ("Por favor ingrese el nombre de la primera ciudad:");
 
                 String city1 = scan.next();
-
-                while (!ciudades.contains(city1)) {
-
-                    System.out.println("La ciudad ingresada no se encuentra registrada.");
-
-                    city1 = scan.next();
 
                 }
 
@@ -160,17 +148,9 @@ public class mainfinal {
 
                 String city2 = scan.next();
 
-                while (!ciudades.contains(city2)) {
-
-                    System.out.println("La ciudad ingresada no se encuentra registrada.");
-
-                    city2 = scan.next();
-
                 }
 
 
-
-                //Se elimina la arista correspondiente
 
                 ciudades.deleteEdge(city1, city2);
 
